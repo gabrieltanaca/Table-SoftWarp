@@ -1,10 +1,14 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  height: 100vh;
+  background-color: #f2f2f2;
+
   display: grid;
   grid-template-columns: 15% 85%;
   grid-template-rows: 100%;
   grid-template-areas: "sidebar content";
+
   main {
     display: grid;
     grid-area: content;
@@ -15,7 +19,9 @@ export const Container = styled.div`
       align-items: center;
 
       h1 {
-        font-size: 60px;
+        padding: 20px;
+
+        font-size: 42px;
         font-weight: 700;
         color: #172232;
       }
@@ -43,8 +49,8 @@ export const Container = styled.div`
         transition: all 0.25s;
 
         &:hover {
-          background-color: #172232;
-          color: #ffffff;
+          background-color: #ffffff;
+          color: #172232;
           cursor: pointer;
         }
       }

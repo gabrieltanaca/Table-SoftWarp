@@ -8,6 +8,10 @@ import { HiUsers } from "react-icons/hi";
 const SideBar: React.FC = () => {
   return (
     <Container>
+      <header className="logo">
+        <img src="/logo.png" alt="SoftWrap" />
+        <p>SoftWrap</p>
+      </header>
       <div>
         <RiDashboardFill size="24" />
         <h1>Dashboard</h1>

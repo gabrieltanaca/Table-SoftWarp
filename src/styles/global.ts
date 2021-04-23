@@ -9,7 +9,7 @@ export default createGlobalStyle`
 }
   body, 
   div,
-  h1{
+  h1,p{
     font-size: 24px;
     font-family: 'Roboto', sans-serif;
     margin-bottom: 0;
