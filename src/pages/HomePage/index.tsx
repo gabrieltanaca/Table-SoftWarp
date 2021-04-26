@@ -22,11 +22,20 @@ export default function HomePage() {
   const [users, setUsers] = useState<any[]>([]);
   const [createUser, setCreateUser] = useState(false);
   const [user, setUser] = useState(user_default as UsersI);
+
   const inputValue = (event: React.FormEvent<HTMLInputElement>): void => {
     const { name, value } = event.currentTarget;
+
+    console.log(name);
+
     setUser((prev) => {
       const prevUser = { ...prev };
-      prevUser[name] = value;
+
+      prevUser[name] =
+        name === "cpf"
+          ? value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")
+          : value;
+
       return prevUser;
     });
   };
@@ -44,6 +53,7 @@ export default function HomePage() {
         setUsers(arrayUsers);
       });
   }, []);
+
   return (
     <Container>
       <div>
@@ -67,7 +77,7 @@ export default function HomePage() {
             ))}
             {createUser && (
               <CreateUserLine>
-                <td>
+                <td className="name">
                   <input
                     name="name"
                     type="text"
@@ -89,6 +99,7 @@ export default function HomePage() {
                     type="text"
                     value={user.cpf}
                     onChange={inputValue}
+                    maxLength={14}
                   />
                 </td>
                 <td>

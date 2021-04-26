@@ -66,9 +66,14 @@ export const Container = styled.div`
 `;
 
 export const CreateUserLine = styled.tr`
+  .name {
+    width: 25%;
+  }
   td {
     padding: 0.75rem 0.5rem;
     input {
+      border: 0;
+      border-radius: 5px;
       width: 95%;
     }
   }

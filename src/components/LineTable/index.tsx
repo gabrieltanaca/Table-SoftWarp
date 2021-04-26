@@ -27,7 +27,7 @@ const LineTable = ({
     <CreateUserLine>
       {edit ? (
         <>
-          <td>
+          <td className="name">
             <input
               name="name"
               type="text"
