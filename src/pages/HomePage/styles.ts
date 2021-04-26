@@ -69,12 +69,22 @@ export const CreateUserLine = styled.tr`
   .name {
     width: 25%;
   }
+
+  .age {
+    width: 10%;
+  }
   td {
     padding: 0.75rem 0.5rem;
     input {
       border: 0;
       border-radius: 5px;
       width: 95%;
+      height: calc(1.5rem + 0.75rem + 2px);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #495057;
+      padding: 0.375rem 1.75rem 0.375rem 0.75rem;
     }
   }
 `;

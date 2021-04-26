@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Table, Button } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 import { BsCheck, BsX } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 
@@ -9,25 +10,41 @@ import { UsersI } from "../../interface";
 import { saveUser } from "../../firebase";
 import firebaseConfig from "../../firebase/firebase.config";
 import LineTable from "../../components/LineTable";
+import api from "../../services/api";
+import { sortByName } from "../../functions/sort";
 
 export default function HomePage() {
   const user_default: UsersI = {
     age: "",
-    city: "",
+    city: "São Paulo",
     cpf: "",
-    maritalStatus: "",
+    maritalStatus: "Solteiro",
     name: "",
-    state: "",
+    state: "SP",
   };
   const [users, setUsers] = useState<any[]>([]);
   const [createUser, setCreateUser] = useState(false);
   const [user, setUser] = useState(user_default as UsersI);
+  const [states, setStates] = useState<{ id: string; sigla: string }[]>([]);
+  const [cities, setCities] = useState<{ id: string; nome: string }[]>([]);
 
-  const inputValue = (event: React.FormEvent<HTMLInputElement>): void => {
+  const requestStates = async () => {
+    const { data } = await api.get("/estados");
+    setStates(data);
+  };
+
+  const requestCities = async () => {
+    const { data } = await api.get(`/estados/${user.state}/municipios`);
+    setCities(data);
+    setUser((prev) => ({ ...prev, city: data[0].nome }));
+  };
+
+  const inputValue = (
+    event: React.FormEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ): void => {
     const { name, value } = event.currentTarget;
-
-    console.log(name);
-
     setUser((prev) => {
       const prevUser = { ...prev };
 
@@ -41,6 +58,8 @@ export default function HomePage() {
   };
 
   useEffect(() => {
+    requestStates();
+
     firebaseConfig
       .firestore()
       .collection("users")
@@ -54,27 +73,37 @@ export default function HomePage() {
       });
   }, []);
 
+  useEffect(() => {
+    requestCities();
+  }, [user.state]);
+
   return (
     <Container>
       <div>
         <h1>Usuários</h1>
-        <Table striped borderless responsive>
+        <Table striped responsive borderless>
           <thead>
             <tr>
               <th>Nome</th>
               <th>Idade</th>
               <th>CPF</th>
               <th>Estado Civil</th>
-              <th>Cidade</th>
               <th>Estado</th>
+              <th>Cidade</th>
               <th></th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user: UsersI) => (
-              <LineTable key={user.id} user={user} setUsers={setUsers} />
+            {users.sort(sortByName).map((user: UsersI) => (
+              <LineTable
+                key={user.id}
+                user={user}
+                setUsers={setUsers}
+                states={states}
+              />
             ))}
+
             {createUser && (
               <CreateUserLine>
                 <td className="name">
@@ -85,7 +114,7 @@ export default function HomePage() {
                     onChange={inputValue}
                   />
                 </td>
-                <td>
+                <td className="age">
                   <input
                     name="age"
                     type="text"
@@ -102,34 +131,57 @@ export default function HomePage() {
                     maxLength={14}
                   />
                 </td>
-                <td>
-                  <input
+                <td className="maritalStatus">
+                  <Form.Control
+                    custom
+                    as="select"
                     name="maritalStatus"
-                    type="text"
                     value={user.maritalStatus}
                     onChange={inputValue}
-                  />
+                  >
+                    <option value="Solteiro">Solteiro</option>
+                    <option value="Casado">Casado</option>
+                    <option value="Divorciado">Divorciado</option>
+                    <option value="Viúvo">Viúvo</option>
+                  </Form.Control>
                 </td>
                 <td>
-                  <input
-                    name="city"
-                    type="text"
-                    value={user.city}
-                    onChange={inputValue}
-                  />
-                </td>
-                <td>
-                  <input
+                  <Form.Control
+                    custom
+                    as="select"
                     name="state"
-                    type="text"
                     value={user.state}
                     onChange={inputValue}
-                  />
+                    disabled={!states.length}
+                  >
+                    {states.map((state) => (
+                      <option value={state.sigla} key={state.id}>
+                        {state.sigla}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </td>
+                <td>
+                  <Form.Control
+                    custom
+                    as="select"
+                    name="city"
+                    value={user.city}
+                    onChange={inputValue}
+                    disabled={!cities.length}
+                  >
+                    {cities.map((city) => (
+                      <option value={city.nome} key={city.id}>
+                        {city.nome}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </td>
                 <td>
                   <Button
                     variant="primary"
                     onClick={async () => {
+                      console.log(user);
                       const id = await saveUser(user);
                       if (id) setUsers((prev) => [...prev, { id, ...user }]);
                       setCreateUser(false);
