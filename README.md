@@ -17,6 +17,8 @@
 - [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 - [Como baixar o projeto](#-como-baixar-o-projeto)
 
+---
+
 ## 🔖 Sobre
 
 O projeto foi desenvolvido com o propósito da criação de usuários dentro de uma tabela, tendo alguns requisitos mínimos a ser atendidos
