@@ -27,7 +27,7 @@ O projeto foi desenvolvido com o propósito da criação de usuários dentro de 
 
 ---
 
-## 📰 Relatório` `
+## 📰 Relatório
 
 As tecnologias utilizadas para esse projeto está indicada no tópico 🚀[Tecnologias Utilizadas](#-tecnologias-utilizadas). Utilizando o ReactJS, podemos usar algumas de suas ferramentas como o `useState()` e o `useEffect()` para muitas funcionalidades, com o `useEffect` foi possível requisitar os dados do banco do firebase para nossa aplicação e utilizando um `forEach` podemos separa-los em um array de usuários , assim fazendo a criação de um back-end bem simples com o uso da ferramenta e o `useState` foi utilizado para completar na hora de alterações dos parâmetros do usuário. Além disso o próprio firebase facilitou na hora de desenvolver as funções para alterar, deletar e criar o usuário, aonde dentro das funções ` saveUser()`, `deleteUser()` e `alterUser()`, puxando da collection os dados e então podendo exluí-los, ou então a partir do 'id' do 'user' poder alterar o 'user', para salvar, utilizei uma Promise para que possamos criar um objeto assíncrono, logo podendo estar disponível no momento ou depois dele.
 
