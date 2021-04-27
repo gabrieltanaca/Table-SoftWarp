@@ -21,7 +21,7 @@ const LineTable = ({ user, setUsers, states }: LineTableProps) => {
   const [cities, setCities] = useState<{ id: string; nome: string }[]>([]);
 
   const requestCities = async () => {
-    const { data } = await api.get(`/estados/${user.state}/municipios`);
+    const { data } = await api.get(`/estados/${userLine.state}/municipios`);
     setCities(data);
   };
 
